@@ -8,10 +8,34 @@ tcltest::test fmt-1.0 {
 	finsum::fmt [scan "0" %d]
 } -result 0.00
 
+tcltest::test fmt-1.1 {
+	fmt 0 2 4
+} -body {
+	finsum::fmt [scan "0" %d] 2 4
+} -result 0.0000
+
+tcltest::test fmt-1.2 {
+	fmt 0 4 2
+} -body {
+	finsum::fmt [scan "0" %d] 4 2
+} -result 0.00
+
 tcltest::test fmt-2.0 {
 	fmt 3
 } -body {
 	finsum::fmt [scan "3" %d]
+} -result 0.03
+
+tcltest::test fmt-2.1 {
+	fmt 3 2 4
+} -body {
+	finsum::fmt [scan "3" %d] 2 4
+} -result 0.0003
+
+tcltest::test fmt-2.2 {
+	fmt 3 4 2
+} -body {
+	finsum::fmt [scan "3" %d] 4 2
 } -result 0.03
 
 tcltest::test fmt-3.0 {
@@ -20,16 +44,52 @@ tcltest::test fmt-3.0 {
 	finsum::fmt [scan "33" %d]
 } -result 0.33
 
+tcltest::test fmt-3.1 {
+	fmt 33 2 4
+} -body {
+	finsum::fmt [scan "33" %d] 2 4
+} -result 0.0033
+
+tcltest::test fmt-3.2 {
+	fmt 33 4 2
+} -body {
+	finsum::fmt [scan "33" %d] 4 2
+} -result 0.33
+
 tcltest::test fmt-4.0 {
 	fmt 133
 } -body {
 	finsum::fmt [scan "133" %d]
 } -result 1.33
 
+tcltest::test fmt-4.1 {
+	fmt 133 2 4
+} -body {
+	finsum::fmt [scan "133" %d] 2 4
+} -result 1.0033
+
+tcltest::test fmt-4.2 {
+	fmt 133 4 2
+} -body {
+	finsum::fmt [scan "133" %d] 4 2
+} -result 0.13
+
 tcltest::test fmt-5.0 {
 	fmt -133
 } -body {
 	finsum::fmt [scan "-133" %d]
 } -result -1.33
+
+tcltest::test fmt-5.1 {
+	fmt -133 2 4
+} -body {
+	finsum::fmt [scan "-133" %d] 2 4
+} -result -1.0033
+
+tcltest::test fmt-5.2 {
+	fmt -133 4 2
+} -body {
+	finsum::fmt [scan "-133" %d] 4 2
+} -result -0.13
 
 tcltest::cleanupTests
