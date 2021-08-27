@@ -72,6 +72,9 @@ fractional part is too large: 003
 177300
 % finsum::parse 1773.009
 177300
+```
+
+```
 % finsum::is_correct 1773.09
 1
 % finsum::is_correct 1773.009
