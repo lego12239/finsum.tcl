@@ -29,6 +29,20 @@ FPDQ\_IN - a fractional part digits quantity in SUM(2 by default)
 FPDQ\_OUT - a fractional part digits quantity in a result(2 by default)
 FPS - a fractional part separator in a result(. by default)
 
+If your parameters values are differ from defaults, then the the more
+convenient way to use lib is to redefine parse and fmt procs(parse and fmt
+actually just wrappers for \_parse and \_fmt). For example:
+
+```
+proc finsum::parse {sum {fpdq 4} {fps ",."}} {
+	return [finsum::_parse $sum $fpdq $fps]
+}
+
+proc finsum::fmt {sum {fpdq_in 4} {fpdq_out 2} {fps ",."}} {
+	return [finsum::_fmt $sum $fpdq_in $fpdq_out $fps]
+}
+```
+
 Examples
 ========
 
