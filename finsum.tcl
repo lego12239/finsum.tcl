@@ -26,11 +26,15 @@ package provide finsum 1.0
 namespace eval finsum {
 variable ignore_errors 0
 
+proc parse {sum {fpdq 2} {fps ",."}} {
+	return [[namespace current]::_parse $sum $fpdq $fps]
+}
+
 # Convert a money sum represented in fractional form to integer form.
 # sum - a money sum
 # fpdq - a fractional part digits quantity(to be returned)
 # fps - fractional part separators
-proc parse {sum {fpdq 2} {fps ",."}} {
+proc _parse {sum fpdq fps} {
 	variable ignore_errors
 
 	set p [split [string trim $sum] $fps]
@@ -44,6 +48,10 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 }
 
 proc fmt {sum {fpdq_in 2} {fpdq_out 2} {fps "."}} {
+	return [[namespace current]::_fmt $sum $fpdq_in $fpdq_out $fps]
+}
+
+proc _fmt {sum fpdq_in fpdq_out fps} {
 	if {$sum < 0} {
 		set sign "-"
 		set sum [expr {$sum * -1}]
