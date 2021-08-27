@@ -1,0 +1,35 @@
+lappend auto_path [pwd]/../
+package require tcltest
+package require finsum
+
+tcltest::test fmt-1.0 {
+	fmt 0
+} -body {
+	finsum::fmt [scan "0" %d]
+} -result 0.00
+
+tcltest::test fmt-2.0 {
+	fmt 3
+} -body {
+	finsum::fmt [scan "3" %d]
+} -result 0.03
+
+tcltest::test fmt-3.0 {
+	fmt 33
+} -body {
+	finsum::fmt [scan "33" %d]
+} -result 0.33
+
+tcltest::test fmt-4.0 {
+	fmt 133
+} -body {
+	finsum::fmt [scan "133" %d]
+} -result 1.33
+
+tcltest::test fmt-5.0 {
+	fmt -133
+} -body {
+	finsum::fmt [scan "-133" %d]
+} -result -1.33
+
+tcltest::cleanupTests

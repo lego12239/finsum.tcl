@@ -1,0 +1,18 @@
+lappend auto_path [pwd]/../
+package require tcltest
+package require finsum
+
+tcltest::test err-1.0 {
+	parse 017.023
+} -body {
+	finsum::parse 017.023
+} -returnCodes error -result "fractional part is too large: 023"
+
+tcltest::test err-2.0 {
+	parse 017.023
+} -body {
+	set finsum::ignore_errors 1
+	finsum::parse 017.023
+} -result 1702
+
+tcltest::cleanupTests
