@@ -43,14 +43,15 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 	return [scan [format "%s%.${fpdq}s" [lindex $p 0] $fract] %d]
 }
 
-proc fmt {sum {fpdq 2} {fps "."}} {
+proc fmt {sum {fpdq_in 2} {fpdq_out 2} {fps "."}} {
 	if {$sum < 0} {
 		set sign "-"
 		set sum [expr {$sum * -1}]
 	} else {
 		set sign ""
 	}
-	return [format "%s%d.%0${fpdq}d" $sign [expr {int($sum) / 10**$fpdq}] \
-	  [expr {int($sum) % 10**$fpdq}]]
+	set int [expr {int($sum) / 10**$fpdq_in}]
+	set fract [expr {int($sum) % 10**$fpdq_in}]
+	return [format "%s%d.%0${fpdq_out}.${fpdq_out}s" $sign $int $fract]
 }
 }
