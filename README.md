@@ -10,6 +10,7 @@ Synopsis
 ========
 
 finsum::parse SUM [FPDQ] [FPS]
+
 finsum::fmt SUM [FPDQ\_IN] [FPDQ\_OUT] [FPS]
 
 Description
