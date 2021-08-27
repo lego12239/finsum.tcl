@@ -10,7 +10,7 @@ Synopsis
 ========
 
 finsum::parse SUM [FPDQ] [FPS]
-finsum::fmt SUM [FPDQ] [FPS]
+finsum::fmt SUM [FPDQ\_IN] [FPDQ\_OUT] [FPS]
 
 Description
 ===========
@@ -25,8 +25,9 @@ too large fractional part(it simply truncated).
 
 fmt routine is used to format SUM(in a representation for processing) to
 representation for view.
-FPDQ - a fractional part digits quantity in SUM(2 by default)
-FPS - a fractional part separator(. by default)
+FPDQ\_IN - a fractional part digits quantity in SUM(2 by default)
+FPDQ\_OUT - a fractional part digits quantity in a result(2 by default)
+FPS - a fractional part separator in a result(. by default)
 
 Examples
 ========
@@ -56,4 +57,6 @@ fractional part is too large: 003
 ```
 % finsum::fmt 177330
 1773.30
+% finsum::fmt 177330 4 2
+17.73
 ```
