@@ -47,6 +47,9 @@ proc _is_correct {sum fpdq_in fps} {
 	if {![regexp {^[\+\-]?[0-9]*$} [lindex $p 0]]} {
 		return 0
 	}
+	if {[string length [lindex $p 1]] > $fpdq_in} {
+		return 0
+	}
 	if {![regexp {^[0-9]*$} [lindex $p 1]]} {
 		return 0
 	}
