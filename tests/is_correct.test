@@ -93,4 +93,16 @@ tcltest::test is_correct-4.4 {
 	finsum::is_correct 0x17.1
 } -result 0
 
+tcltest::test is_correct-5.0 {
+	parse 17.09
+} -body {
+	finsum::is_correct 17.09
+} -result 1
+
+tcltest::test is_correct-5.1 {
+	parse 17.009
+} -body {
+	finsum::is_correct 17.009
+} -result 0
+
 tcltest::cleanupTests
