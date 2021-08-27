@@ -13,6 +13,8 @@ finsum::parse SUM [FPDQ] [FPS]
 
 finsum::fmt SUM [FPDQ\_IN] [FPDQ\_OUT] [FPS]
 
+finsum::is\_correct SUM [FPDQ\_IN] [FPS]
+
 Description
 ===========
 
@@ -30,9 +32,12 @@ FPDQ\_IN - a fractional part digits quantity in SUM(2 by default)
 FPDQ\_OUT - a fractional part digits quantity in a result(2 by default)
 FPS - a fractional part separator in a result(. by default)
 
+is\_correct routine is used to check a SUM(in a representation for view).
+
 If your parameters values are differ from defaults, then the the more
-convenient way to use lib is to redefine parse and fmt procs(parse and fmt
-actually just wrappers for \_parse and \_fmt). For example:
+convenient way to use lib is to redefine parse, fmt and is\_correct
+procs(this procs actually just wrappers for \_parse, \_fmt and \_is\_correct).
+For example:
 
 ```
 proc finsum::parse {sum {fpdq 4} {fps ",."}} {
@@ -67,6 +72,12 @@ fractional part is too large: 003
 177300
 % finsum::parse 1773.009
 177300
+% finsum::is_correct 1773.09
+1
+% finsum::is_correct 1773.009
+0
+% finsum::is_correct 0x1773
+0
 ```
 
 ```
