@@ -26,6 +26,33 @@ package provide finsum 1.0
 namespace eval finsum {
 variable ignore_errors 0
 
+# Check a sum in a representation-for-view for correctness.
+#  sum - a sum in representation-for-view
+#  fpdq_in - a maximum fractional part digits quantity for sum
+#  fps - fractional part separators
+# ret:
+#  0 - if not correct
+#  1 - if correct
+#
+# Leading and trailing spaces are removed before checking.
+# Trailing zeroes are also removed before checking.
+proc is_correct {sum {fpdq_in 2} {fps ",."}} {
+	return [[namespace current]::_is_correct $sum $fpdq_in $fps]
+}
+proc _is_correct {sum fpdq_in fps} {
+	set p [split [string trim [string trim $sum] 0] $fps]
+	if {[llength $p] > 2} {
+		return 0
+	}
+	if {![regexp {^[\+\-]?[0-9]*$} [lindex $p 0]]} {
+		return 0
+	}
+	if {![regexp {^[0-9]*$} [lindex $p 1]]} {
+		return 0
+	}
+	return 1
+}
+
 proc parse {sum {fpdq 2} {fps ",."}} {
 	return [[namespace current]::_parse $sum $fpdq $fps]
 }
