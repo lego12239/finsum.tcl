@@ -77,10 +77,16 @@ proc _parse {sum fpdq fps} {
 	if {![regexp {^[+-]?[0-9]+$} [lindex $p 0]]} {
 		error "integer part is not an integer: [lindex $p 0]"
 	}
-	set fract [string trimright [lindex $p 1] 0]
+	if {[llength $p] == 1} {
+		lset p 1 0
+	} elseif {[llength $p] > 2} {
+		error "sum isn't a number: $sum"
+	}
+	set fract [lindex $p 1]
 	if {![regexp {^[0-9]+$} $fract]} {
 		error "fractional part is not an unsigned integer: $fract"
 	}
+	set fract [string trimright $fract 0]
 	set zero_cnt [expr {$fpdq - [string length $fract]}]
 	if {(!$ignore_errors) && ($zero_cnt < 0)} {
 		error "fractional part is too large: $fract"
