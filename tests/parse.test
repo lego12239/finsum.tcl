@@ -104,4 +104,22 @@ tcltest::test parse-6.1 {
 	finsum::parse 170
 } -result 17000
 
+tcltest::test parse-7.0 {
+	parse 170 4
+} -body {
+	finsum::parse 170 4
+} -result 1700000
+
+tcltest::test parse-7.1 {
+	parse 170.12 4
+} -body {
+	finsum::parse 170.12 4
+} -result 1701200
+
+tcltest::test parse-7.2 {
+	parse 170-12 4 -
+} -body {
+	finsum::parse 170-12 4 -
+} -result 1701200
+
 tcltest::cleanupTests
