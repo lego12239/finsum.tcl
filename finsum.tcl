@@ -95,19 +95,29 @@ proc _parse {sum fpdq fps} {
 	return [scan [format "%s%.${fpdq}s" [lindex $p 0] $fract] %d]
 }
 
-proc fmt {sum {fpdq_in 2} {fpdq_out 2} {fps "."}} {
-	return [[namespace current]::_fmt $sum $fpdq_in $fpdq_out $fps]
+# This is a default fmt function, which can be replaced
+# by package user with a function which calls _fmt() with needed
+# parameters.
+proc fmt {sum {fpdq 2} {fps "."}} {
+	return [[namespace current]::_fmt $sum $fpdq $fps]
 }
 
-proc _fmt {sum fpdq_in fpdq_out fps} {
+# Format a sum represented in integer form as a fractional form sum.
+# prms:
+#  sum  - a sum to format
+#  fpdq - a fractional part digits quantity for sum
+#  fps  - fractional part separators
+# ret:
+#  STRING - a sum in the fractional form
+proc _fmt {sum fpdq fps} {
 	if {$sum < 0} {
 		set sign "-"
 		set sum [expr {$sum * -1}]
 	} else {
 		set sign ""
 	}
-	set int [expr {int($sum) / 10**$fpdq_in}]
-	set fract [expr {int($sum) % 10**$fpdq_in}]
-	return [format "%s%d.%0${fpdq_out}.${fpdq_out}s" $sign $int $fract]
+	set int [expr {int($sum) / 10**$fpdq}]
+	set fract [expr {int($sum) % 10**$fpdq}]
+	return [format "%s%d.%0${fpdq}.${fpdq}s" $sign $int $fract]
 }
 }
