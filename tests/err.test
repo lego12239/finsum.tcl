@@ -35,4 +35,10 @@ tcltest::test err-5.0 {
 	finsum::parse 017.02.3
 } -returnCodes error -result "sum isn't a number: 017.02.3"
 
+tcltest::test err-6.0 {
+	fmt 0.3
+} -body {
+	finsum::fmt 0.3
+} -returnCodes error -result "sum isn't an integer: 0.3"
+
 tcltest::cleanupTests
