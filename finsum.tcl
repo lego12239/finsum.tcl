@@ -110,6 +110,9 @@ proc fmt {sum {fpdq 2} {fps "."}} {
 # ret:
 #  STRING - a sum in the fractional form
 proc _fmt {sum fpdq fps} {
+	if {![string is entier -strict $sum]} {
+		error "sum isn't an integer: $sum"
+	}
 	if {$sum < 0} {
 		set sign "-"
 		set sum [expr {$sum * -1}]
