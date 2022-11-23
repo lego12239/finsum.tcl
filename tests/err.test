@@ -29,4 +29,10 @@ tcltest::test err-4.0 {
 	finsum::parse 017.-023
 } -returnCodes error -result "fractional part is not an unsigned integer: -023"
 
+tcltest::test err-5.0 {
+	parse 017.02.3
+} -body {
+	finsum::parse 017.02.3
+} -returnCodes error -result "sum isn't a number: 017.02.3"
+
 tcltest::cleanupTests
