@@ -62,4 +62,10 @@ tcltest::test fmt-5.1 {
 	finsum::fmt [scan "-133" %d] 4
 } -result -0.0133
 
+tcltest::test fmt-6.0 {
+	fmt 133 4 -
+} -body {
+	finsum::fmt [scan "133" %d] 4 -
+} -result 0-0133
+
 tcltest::cleanupTests
