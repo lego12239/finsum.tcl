@@ -65,7 +65,7 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 
 # Convert a money sum represented in fractional form to integer form.
 # prms:
-#  sum  - a money sum to convert
+#  sum  - a money sum to convert (in format: [+-]INT[.INT], for fps with .)
 #  fpdq - a fractional part digits quantity(to be returned)
 #  fps  - fractional part separators
 # ret:
