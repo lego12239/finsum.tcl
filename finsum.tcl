@@ -106,7 +106,7 @@ proc fmt {sum {fpdq 2} {fps "."}} {
 # prms:
 #  sum  - a sum to format
 #  fpdq - a fractional part digits quantity for sum
-#  fps  - fractional part separators
+#  fps  - fractional part separator
 # ret:
 #  STRING - a sum in the fractional form
 proc _fmt {sum fpdq fps} {
@@ -121,6 +121,6 @@ proc _fmt {sum fpdq fps} {
 	}
 	set int [expr {int($sum) / 10**$fpdq}]
 	set fract [expr {int($sum) % 10**$fpdq}]
-	return [format "%s%d.%0${fpdq}.${fpdq}s" $sign $int $fract]
+	return [format "%s%d${fps}%0${fpdq}.${fpdq}s" $sign $int $fract]
 }
 }
