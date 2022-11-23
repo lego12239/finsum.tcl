@@ -56,14 +56,20 @@ proc _is_correct {sum fpdq_in fps} {
 	return 1
 }
 
+# This is a default parse function, which can be replaced
+# by package user with a function which calls _parse() with needed
+# parameters.
 proc parse {sum {fpdq 2} {fps ",."}} {
 	return [[namespace current]::_parse $sum $fpdq $fps]
 }
 
 # Convert a money sum represented in fractional form to integer form.
-# sum - a money sum
-# fpdq - a fractional part digits quantity(to be returned)
-# fps - fractional part separators
+# prms:
+#  sum  - a money sum to convert
+#  fpdq - a fractional part digits quantity(to be returned)
+#  fps  - fractional part separators
+# ret:
+#  INTEGER - a converted sum
 proc _parse {sum fpdq fps} {
 	variable ignore_errors
 
