@@ -38,32 +38,36 @@ variable ignore_errors 0
 # This is a default is_correct function, which can be replaced
 # by package user with a function which calls _is_correct() with needed
 # parameters.
-proc is_correct {sum {fpdq_in 2} {fps ",."}} {
-	return [[namespace current]::_is_correct $sum $fpdq_in $fps]
+proc is_correct {sum {fpdq 2} {fps ",."}} {
+	return [[namespace current]::_is_correct $sum $fpdq $fps]
 }
 
 # Check a sum in a fractional form for correctness.
-#  sum - a sum in fractional form
-#  fpdq_in - a maximum fractional part digits quantity for sum
-#  fps - fractional part separators
+#  sum  - a sum in fractional form
+#  fpdq - a maximum fractional part digits quantity for sum
+#  fps  - fractional part separators
 # ret:
 #  0 - if not correct
 #  1 - if correct
 #
 # Leading and trailing spaces are removed before checking.
 # Trailing zeroes are also removed before checking.
-proc _is_correct {sum fpdq_in fps} {
-	set p [split [string trim [string trim $sum] 0] $fps]
-	if {[llength $p] > 2} {
+proc _is_correct {sum fpdq fps} {
+	set p [split [string trim $sum] $fps]
+	if {![regexp {^[+-]?[0-9]+$} [lindex $p 0]]} {
 		return 0
 	}
-	if {![regexp {^[\+\-]?[0-9]*$} [lindex $p 0]]} {
+	if {[llength $p] == 1} {
+		return 1
+	} elseif {[llength $p] > 2} {
 		return 0
 	}
-	if {[string length [lindex $p 1]] > $fpdq_in} {
+	set fract [lindex $p 1]
+	if {![regexp {^[0-9]+$} $fract]} {
 		return 0
 	}
-	if {![regexp {^[0-9]*$} [lindex $p 1]]} {
+	set fract [string trimright $fract 0]
+	if {[string length $fract] > $fpdq} {
 		return 0
 	}
 	return 1
