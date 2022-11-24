@@ -23,11 +23,27 @@
 
 package provide finsum 1.0
 
+# Some info:
+#  - fractional form of sum/number:
+#    a text string for human view, e.g. "12.34" or "0.34"
+#  - integer form of sum/number:
+#    an integer number without fractional part, e.g. 1234 or 34
+#  This package do a convertion between fractional form and
+#  integer form and vice versa, e.g. convert "12.34" to 1234 and
+#  1234 to "12.34".
+
 namespace eval finsum {
 variable ignore_errors 0
 
-# Check a sum in a representation-for-view for correctness.
-#  sum - a sum in representation-for-view
+# This is a default is_correct function, which can be replaced
+# by package user with a function which calls _is_correct() with needed
+# parameters.
+proc is_correct {sum {fpdq_in 2} {fps ",."}} {
+	return [[namespace current]::_is_correct $sum $fpdq_in $fps]
+}
+
+# Check a sum in a fractional form for correctness.
+#  sum - a sum in fractional form
 #  fpdq_in - a maximum fractional part digits quantity for sum
 #  fps - fractional part separators
 # ret:
@@ -36,9 +52,6 @@ variable ignore_errors 0
 #
 # Leading and trailing spaces are removed before checking.
 # Trailing zeroes are also removed before checking.
-proc is_correct {sum {fpdq_in 2} {fps ",."}} {
-	return [[namespace current]::_is_correct $sum $fpdq_in $fps]
-}
 proc _is_correct {sum fpdq_in fps} {
 	set p [split [string trim [string trim $sum] 0] $fps]
 	if {[llength $p] > 2} {
@@ -70,6 +83,9 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 #  fps  - fractional part separators
 # ret:
 #  INTEGER - a converted sum
+#
+# Leading and trailing spaces are removed before work.
+# Trailing zeroes are also removed before work.
 proc _parse {sum fpdq fps} {
 	variable ignore_errors
 
@@ -109,6 +125,9 @@ proc fmt {sum {fpdq 2} {fps "."}} {
 #  fps  - fractional part separator
 # ret:
 #  STRING - a sum in the fractional form
+#
+# Leading and trailing spaces are removed before work.
+# Trailing zeroes are also removed before work.
 proc _fmt {sum fpdq fps} {
 	if {![string is entier -strict $sum]} {
 		error "sum isn't an integer: $sum"
