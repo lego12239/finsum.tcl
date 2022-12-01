@@ -25,9 +25,11 @@ package provide finsum 1.0
 
 # Some info:
 #  - fractional form of sum/number:
-#    a text string for human view, e.g. "12.34" or "0.34"
+#    A text string for human view - a representation for view.
+#    E.g. "12.34" or "0.34".
 #  - integer form of sum/number:
-#    an integer number without fractional part, e.g. 1234 or 34
+#    An integer number without fractional part - a representation for
+#    processing to eliminate rounding errors. E.g. 1234 or 34.
 #  This package do a convertion between fractional form and
 #  integer form and vice versa, e.g. convert "12.34" to 1234 and
 #  1234 to "12.34".
@@ -126,7 +128,7 @@ proc fmt {sum {fpdq 2} {fps "."}} {
 # prms:
 #  sum  - a sum to format
 #  fpdq - a fractional part digits quantity for sum
-#  fps  - fractional part separator
+#  fps  - a fractional part separator
 # ret:
 #  STRING - a sum in the fractional form
 #
