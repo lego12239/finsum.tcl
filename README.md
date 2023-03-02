@@ -19,7 +19,8 @@ Description
 ===========
 
 parse routine parses SUM(in a fractional form) and returns integer
-representation for this value that will be used for later calculations. The
+representation for this value that will be used for later calculations.
+Leading and trailing spaces are removed. The
 function args are:
 SUM  - a sum(in a fractional form) to convert
 FPDQ - a fractional part digits quantity to be returned(2 by default)
@@ -35,7 +36,8 @@ FPDQ - a fractional part digits quantity in SUM and in a result(2 by default)
 FPS  - a fractional part separator in a result(. by default)
 
 is\_correct routine checks that a SUM string is a syntactically correct
-money sum in a fractional form. The function args are:
+money sum in a fractional form. Leading and trailing spaces are removed before
+checking. The function args are:
 SUM  - a sum(in an fractional form) to check
 FPDQ - a fractional part digits quantity in SUM(2 by default)
 FPS  - a fractional part separator(, and . by default)
