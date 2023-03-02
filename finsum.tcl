@@ -38,11 +38,11 @@ namespace eval finsum {
 variable onerr [list _onerr_throw]
 
 proc _onerr_print {sum} {
-	puts stderr "fractional part is too large: $sum"
+	puts stderr "fractional part is too large: '$sum'"
 }
 
 proc _onerr_throw {sum} {
-	throw {FINSUM PARSE} "fractional part is too large: $sum"
+	throw {FINSUM PARSE} "fractional part is too large: '$sum'"
 }
 
 # This is a default is_correct function, which can be replaced
@@ -105,16 +105,16 @@ proc _parse {sum fpdq fps} {
 
 	set p [split [string trim $sum] $fps]
 	if {![regexp {^[+-]?[0-9]+$} [lindex $p 0]]} {
-		error "integer part is not an integer: [lindex $p 0]"
+		error "integer part is not an integer: '[lindex $p 0]'"
 	}
 	if {[llength $p] == 1} {
 		lset p 1 0
 	} elseif {[llength $p] > 2} {
-		error "sum isn't a number: $sum"
+		error "sum isn't a number: '$sum'"
 	}
 	set fract [lindex $p 1]
 	if {![regexp {^[0-9]+$} $fract]} {
-		error "fractional part is not an unsigned integer: $fract"
+		error "fractional part is not an unsigned integer: '$fract'"
 	}
 	set fract [string trimright $fract 0]
 	set zero_cnt [expr {$fpdq - [string length $fract]}]
@@ -144,7 +144,7 @@ proc fmt {sum {fpdq 2} {fps "."}} {
 # Trailing zeroes are also removed before work.
 proc _fmt {sum fpdq fps} {
 	if {![string is entier -strict $sum]} {
-		error "sum isn't an integer: $sum"
+		error "sum isn't an integer: '$sum'"
 	}
 	if {$sum < 0} {
 		set sign "-"
