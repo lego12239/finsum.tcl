@@ -35,7 +35,15 @@ package provide finsum 2.0
 #  1234 to "12.34".
 
 namespace eval finsum {
-variable ignore_errors 0
+variable onerr [list _onerr_throw]
+
+proc _onerr_print {sum} {
+	puts stderr "fractional part is too large: $sum"
+}
+
+proc _onerr_throw {sum} {
+	throw {FINSUM PARSE} "fractional part is too large: $sum"
+}
 
 # This is a default is_correct function, which can be replaced
 # by package user with a function which calls _is_correct() with needed
@@ -93,7 +101,7 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 # Leading and trailing spaces are removed before work.
 # Trailing zeroes are also removed before work.
 proc _parse {sum fpdq fps} {
-	variable ignore_errors
+	variable onerr
 
 	set p [split [string trim $sum] $fps]
 	if {![regexp {^[+-]?[0-9]+$} [lindex $p 0]]} {
@@ -110,8 +118,8 @@ proc _parse {sum fpdq fps} {
 	}
 	set fract [string trimright $fract 0]
 	set zero_cnt [expr {$fpdq - [string length $fract]}]
-	if {(!$ignore_errors) && ($zero_cnt < 0)} {
-		error "fractional part is too large: $fract"
+	if {([llength $onerr] != 0) && ($zero_cnt < 0)} {
+		{*}$onerr $sum
 	}
 	append fract [string repeat "0" $zero_cnt]
 	return [scan [format "%s%.${fpdq}s" [lindex $p 0] $fract] %d]
