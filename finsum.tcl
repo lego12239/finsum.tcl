@@ -35,9 +35,14 @@ package provide finsum 2.0
 #  1234 to "12.34".
 
 namespace eval finsum {
-variable onerr [list _onerr_throw]
 variable ipart_rex {^[+-]?[0-9]+$}
 variable fpart_rex {^[0-9]+$}
+
+#interp alias {} onerr {} ::finsum::_onerr_throw
+
+proc onerr {sum} {
+	_onerr_throw $sum
+}
 
 proc _onerr_print {sum} {
 	puts stderr "fractional part is too large: '$sum'"
@@ -108,7 +113,6 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 proc _parse {sum fpdq fps} {
 	variable ipart_rex
 	variable fpart_rex
-	variable onerr
 
 	set p [split [string trim $sum] $fps]
 	if {![regexp $ipart_rex [lindex $p 0]]} {
@@ -124,8 +128,8 @@ proc _parse {sum fpdq fps} {
 		error "fractional part is not an unsigned integer: '$sum'"
 	}
 	set fract [string trimright $fract 0]
-	if {([llength $onerr] != 0) && ([string length $fract] > $fpdq)} {
-		{*}$onerr $sum
+	if {[string length $fract] > $fpdq} {
+		onerr $sum
 	}
 	return [scan [format "%s%-0${fpdq}.${fpdq}s" [lindex $p 0] $fract] %d]
 }
