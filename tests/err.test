@@ -11,9 +11,9 @@ tcltest::test err-1.0 {
 tcltest::test err-2.0 {
 	parse 017.023
 } -body {
-	set finsum::onerr ""
+	proc finsum::onerr {sum} {}
 	set ret [finsum::parse 017.023]
-	set finsum::onerr finsum::_onerr_throw
+	proc finsum::onerr {sum} { _onerr_throw; }
 	return $ret
 } -result 1702
 
