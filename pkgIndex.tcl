@@ -1,1 +1,1 @@
-package ifneeded finsum 2.0 [list source [file join $dir finsum.tcl]]
+package ifneeded finsum 3.0 [list source [file join $dir finsum.tcl]]

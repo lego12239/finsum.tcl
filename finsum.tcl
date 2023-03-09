@@ -21,7 +21,7 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package provide finsum 2.0
+package provide finsum 3.0
 
 # Some info:
 #  - fractional form of sum/number:
