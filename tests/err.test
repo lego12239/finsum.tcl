@@ -6,14 +6,14 @@ tcltest::test err-1.0 {
 	parse 017.023
 } -body {
 	finsum::parse 017.023
-} -returnCodes error -result "fractional part is too large: 023"
+} -returnCodes error -result "fractional part is too large: '017.023'"
 
 tcltest::test err-2.0 {
 	parse 017.023
 } -body {
-	set finsum::ignore_errors 1
+	set finsum::onerr ""
 	set ret [finsum::parse 017.023]
-	set finsum::ignore_errors 0
+	set finsum::onerr finsum::_onerr_throw
 	return $ret
 } -result 1702
 
@@ -21,24 +21,24 @@ tcltest::test err-3.0 {
 	parse 0-17.-023
 } -body {
 	finsum::parse 0-17.-023
-} -returnCodes error -result "integer part is not an integer: 0-17"
+} -returnCodes error -result "integer part is not an integer: '0-17.-023'"
 
 tcltest::test err-4.0 {
 	parse 017.-023
 } -body {
 	finsum::parse 017.-023
-} -returnCodes error -result "fractional part is not an unsigned integer: -023"
+} -returnCodes error -result "fractional part is not an unsigned integer: '017.-023'"
 
 tcltest::test err-5.0 {
 	parse 017.02.3
 } -body {
 	finsum::parse 017.02.3
-} -returnCodes error -result "sum isn't a number: 017.02.3"
+} -returnCodes error -result "sum isn't a number: '017.02.3'"
 
 tcltest::test err-6.0 {
 	fmt 0.3
 } -body {
 	finsum::fmt 0.3
-} -returnCodes error -result "sum isn't an integer: 0.3"
+} -returnCodes error -result "sum isn't an integer: '0.3'"
 
 tcltest::cleanupTests
