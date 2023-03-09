@@ -36,6 +36,8 @@ package provide finsum 2.0
 
 namespace eval finsum {
 variable onerr [list _onerr_throw]
+variable ipart_rex {^[+-]?[0-9]+$}
+variable fpart_rex {^[0-9]+$}
 
 proc _onerr_print {sum} {
 	puts stderr "fractional part is too large: '$sum'"
@@ -63,8 +65,11 @@ proc is_correct {sum {fpdq 2} {fps ",."}} {
 # Leading and trailing spaces are removed before checking.
 # Trailing zeroes are also removed before checking.
 proc _is_correct {sum fpdq fps} {
+	variable ipart_rex
+	variable fpart_rex
+
 	set p [split [string trim $sum] $fps]
-	if {![regexp {^[+-]?[0-9]+$} [lindex $p 0]]} {
+	if {![regexp $ipart_rex [lindex $p 0]]} {
 		return 0
 	}
 	if {[llength $p] == 1} {
@@ -73,7 +78,7 @@ proc _is_correct {sum fpdq fps} {
 		return 0
 	}
 	set fract [lindex $p 1]
-	if {![regexp {^[0-9]+$} $fract]} {
+	if {![regexp $fpart_rex $fract]} {
 		return 0
 	}
 	set fract [string trimright $fract 0]
@@ -101,10 +106,12 @@ proc parse {sum {fpdq 2} {fps ",."}} {
 # Leading and trailing spaces are removed before work.
 # Trailing zeroes are also removed before work.
 proc _parse {sum fpdq fps} {
+	variable ipart_rex
+	variable fpart_rex
 	variable onerr
 
 	set p [split [string trim $sum] $fps]
-	if {![regexp {^[+-]?[0-9]+$} [lindex $p 0]]} {
+	if {![regexp $ipart_rex [lindex $p 0]]} {
 		error "integer part is not an integer: '$sum'"
 	}
 	if {[llength $p] == 1} {
@@ -113,7 +120,7 @@ proc _parse {sum fpdq fps} {
 		error "sum isn't a number: '$sum'"
 	}
 	set fract [lindex $p 1]
-	if {![regexp {^[0-9]+$} $fract]} {
+	if {![regexp $fpart_rex $fract]} {
 		error "fractional part is not an unsigned integer: '$sum'"
 	}
 	set fract [string trimright $fract 0]
