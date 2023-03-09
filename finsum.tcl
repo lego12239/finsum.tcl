@@ -124,12 +124,10 @@ proc _parse {sum fpdq fps} {
 		error "fractional part is not an unsigned integer: '$sum'"
 	}
 	set fract [string trimright $fract 0]
-	set zero_cnt [expr {$fpdq - [string length $fract]}]
-	if {([llength $onerr] != 0) && ($zero_cnt < 0)} {
+	if {([llength $onerr] != 0) && ([string length $fract] > $fpdq)} {
 		{*}$onerr $sum
 	}
-	append fract [string repeat "0" $zero_cnt]
-	return [scan [format "%s%.${fpdq}s" [lindex $p 0] $fract] %d]
+	return [scan [format "%s%-0${fpdq}.${fpdq}s" [lindex $p 0] $fract] %d]
 }
 
 # This is a default fmt function, which can be replaced
