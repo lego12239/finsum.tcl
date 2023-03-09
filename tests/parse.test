@@ -6,19 +6,19 @@ tcltest::test parse-1.0 {
 	parse .
 } -body {
 	finsum::parse .
-} -returnCodes error -result "integer part is not an integer: '.'"
+} -returnCodes error -errorCode {FINSUM PARSE} -result "integer part is not an integer: '.'"
 
 tcltest::test parse-1.1 {
 	parse .0
 } -body {
 	finsum::parse .0
-} -returnCodes error -result "integer part is not an integer: '.0'"
+} -returnCodes error -errorCode {FINSUM PARSE} -result "integer part is not an integer: '.0'"
 
 tcltest::test parse-1.2 {
 	parse .00
 } -body {
 	finsum::parse .00
-} -returnCodes error -result "integer part is not an integer: '.00'"
+} -returnCodes error -errorCode {FINSUM PARSE} -result "integer part is not an integer: '.00'"
 
 tcltest::test parse-1.3 {
 	parse 0.00
@@ -36,7 +36,7 @@ tcltest::test parse-2.1 {
 	parse 1.
 } -body {
 	finsum::parse 1.
-} -returnCodes error -result "fractional part is not an unsigned integer: '1.'"
+} -returnCodes error -errorCode {FINSUM PARSE} -result "fractional part is not an unsigned integer: '1.'"
 
 tcltest::test parse-2.2 {
 	parse 1.2
