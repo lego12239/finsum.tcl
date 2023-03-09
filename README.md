@@ -1,12 +1,12 @@
-Overview
+OVERVIEW
 ========
 
-A util lib for financial sum convertion from a representation for view(22.38 -
+An util lib for financial sum convertion from a representation for view(22.38 -
 i.e. floating value, fractional form) to representation for processing(2238 - i.e. integer
 value, integer form) and vice versa. An integer value is need to do integer arithmetic to
 eliminate calculation errors due to inexact nature of floating point values.
 
-Synopsis
+SYNOPSIS
 ========
 
 finsum::parse SUM [FPDQ] [FPS]
@@ -15,7 +15,7 @@ finsum::fmt SUM [FPDQ] [FPS]
 
 finsum::is\_correct SUM [FPDQ] [FPS]
 
-Description
+DESCRIPTION
 ===========
 
 parse routine parses SUM(in a fractional form) and returns integer
@@ -26,8 +26,20 @@ SUM  - a sum(in a fractional form) to convert
 FPDQ - a fractional part digits quantity to be returned(2 by default)
 FPS  - a fractional part separators(, and . by default)
 
-If finsum::ignore\_errors is set to 1, then there are no errors on
-too large fractional part(it simply truncated).
+By default, finsum::onerr proc is thrown an error on too large fractional part.
+If this behaviour is undesired, then this proc should be redefined.
+To output an error message to stderr without an error throwing(fractional
+part is simply truncated) something like this can be done:
+
+```
+proc ::finsum::onerr {sum} {
+	::finsum::_onerr_print $sum
+}
+
+or
+
+interp alias {} ::finsum::onerr {} ::finsum::_onerr_print
+```
 
 fmt routine formats SUM(in an integer form) as fractional textual form.
 The function args are:
@@ -58,7 +70,26 @@ proc finsum::fmt {sum {fpdq 4} {fps ",."}} {
 }
 ```
 
-Examples
+RETURN VALUE
+============
+
+finsum::parse returns an integer value.
+
+finsum::fmt returns a fractional value.
+
+finsum::is\_correct returns 0 if finsum::parse will thrown an error for
+a specified sum. Otherwise, it returns 1.
+
+ERRORS
+======
+
+On error finsum routines are throw an error with errorCode
+list, where first item equal to 'FINSUM'. Codes:
+
+{FINSUM PARSE} - an error on parsing
+{FINSUM FMT}   - an error on formating
+
+EXAMPLES
 ========
 
 From tclsh:
