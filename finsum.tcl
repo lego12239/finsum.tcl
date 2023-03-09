@@ -116,16 +116,16 @@ proc _parse {sum fpdq fps} {
 
 	set p [split [string trim $sum] $fps]
 	if {![regexp $ipart_rex [lindex $p 0]]} {
-		error "integer part is not an integer: '$sum'"
+		throw {FINSUM PARSE} "integer part is not an integer: '$sum'"
 	}
 	if {[llength $p] == 1} {
 		lset p 1 0
 	} elseif {[llength $p] > 2} {
-		error "sum isn't a number: '$sum'"
+		throw {FINSUM PARSE} "sum isn't a number: '$sum'"
 	}
 	set fract [lindex $p 1]
 	if {![regexp $fpart_rex $fract]} {
-		error "fractional part is not an unsigned integer: '$sum'"
+		throw {FINSUM PARSE} "fractional part is not an unsigned integer: '$sum'"
 	}
 	set fract [string trimright $fract 0]
 	if {[string length $fract] > $fpdq} {
@@ -153,7 +153,7 @@ proc fmt {sum {fpdq 2} {fps "."}} {
 # Trailing zeroes are also removed before work.
 proc _fmt {sum fpdq fps} {
 	if {![string is entier -strict $sum]} {
-		error "sum isn't an integer: '$sum'"
+		throw {FINSUM FMT} "sum isn't an integer: '$sum'"
 	}
 	if {$sum < 0} {
 		set sign "-"
